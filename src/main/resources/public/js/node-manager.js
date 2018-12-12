@@ -3,13 +3,12 @@ $(document).ready(function(){
     window.clusterId = getQueryString("clusterId");
     getCluster(clusterId, function(obj){
         var cluster = obj.res;
-        nodeList(cluster.address, function(obj){
+        nodeList(clusterId, cluster.address, function(obj){
             window.nodeList = obj.res;
             rebuildNodeListTable( window.clusterId );
         });
 
         getNodeList(window.pluginType, window.clusterId, function(obj){
-            console.log( obj );
             window.nodeListDBSize = obj.res.length;
         });
     });
@@ -43,6 +42,7 @@ $(document).on("click", ".start-node", function(){
 
 $(document).on("click", ".stop-node", function(){
     var reqParam = getReqParam( this );
+    reqParam.clusterId = window.clusterId;
     if( reqParam.inCluster == "YES" && window.nodeListDBSize != 1 ){
         sparrow_win.alert("The node is in cluster please forget it then retry");
         return;
