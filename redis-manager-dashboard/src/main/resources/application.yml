@@ -1,0 +1,71 @@
+server:
+  tomcat.uri-encoding: UTF-8
+  port: 8182
+
+spring:
+  application:
+    name: redis-manager
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  datasource:
+    # 必填项，
+    database: redis_manager_refactor
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.16.50.209:3306/redis_manager_refactor?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Newegg@1234
+    druid:
+      # 初始化时建立物理连接的个数
+      initial-size: 0
+      # 最大连接池数量
+      max-active: 10
+      # 最小连接池数量
+      min-idle: 0
+      # 获取连接时最大等待时间，单位毫秒
+      max-wait: 10000
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+# http://download.redis.io/releases/
+# redis manager configuration
+redis-manager:
+  auth:
+    user-name: admin
+    password: admin
+    avatar-path: /redis-manager/avatar/
+    authorization:
+      enabled: true
+      server: xxx
+  # monitor configuration
+  monitor:
+    # 数据保存天数，1-30天, default: 15
+    data-keep-days: 15
+    # slow log limit of one node, default: 20
+    slow-log-limit: 100
+  # installation configuration
+  install:
+    # config dir
+    conf-path: /redis-manager/conf/
+    # physics machine
+    machine:
+      # absolute dir
+      package-path: /redis-manager/machine/
+    # docker
+    docker:
+      # 默认从官方镜像库拉取
+      images: redis:4.0.10,redis:4.0.14,redis:5.0.5
+      docker-host: tcp://%s:2375
+    # for newegg
+    humpback:
+      images: redis:4.0.10,redis:4.0.14,redis:5.0.5
+      humpback-host: http://%s:8500/dockerapi/v2/
+  alert:
+    enabled: true
+    data-keep-days: 15
+  analysis:
+    enabled: false
